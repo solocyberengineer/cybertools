@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]
+then
+	echo -e "Enter the <url/domain>\n";
+	echo "Example:";
+	echo "	$0 https://google.com";
+	echo "	$0 google.com";
+	exit;
+else
+	url=$1;
+fi
+
+domain=$(echo $url | tr '/' " " | cut -d "?" -f1 | awk '{print $NF}');
+
+curl -Ls $url | tr " " "\n" | cut -d '"' -f2 | cut -d "'" -f2 | grep -E "(http|mailto)"
